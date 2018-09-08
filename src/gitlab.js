@@ -147,11 +147,11 @@ export default class VerdaccioGitLab implements IPluginAuth {
   allow_access(user: RemoteUser, _package: VerdaccioGitlabPackageAccess, cb: Callback) {
     if (!_package.gitlab) return cb();
 
-    if ((_package.access || []).includes('$authenticated') && user.name !== undefined) {
+    const allowedGroups = _package.access || [];
+    const userGroups = user.groups || [];
+
+    if(allowedGroups.some(group => userGroups.includes(group))) {
       this.logger.debug(`[gitlab] allow user: ${user.name} access to package: ${_package.name}`);
-      return cb(null, true);
-    } else if ((_package.access || []).includes('$all')) {
-      this.logger.debug(`[gitlab] allow unauthenticated access to package: ${_package.name}`);
       return cb(null, true);
     } else {
       this.logger.debug(`[gitlab] deny user: ${user.name || '<empty>'} access to package: ${_package.name}`);

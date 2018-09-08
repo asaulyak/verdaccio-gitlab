@@ -19,8 +19,7 @@
     "build:docker": "docker build -t verdaccio-gitlab . --no-cache",
     "test": "yarn test:unit",
     "test:unit": "cross-env BABEL_ENV=test TZ=UTC jest --config ./test/jest.config.unit.js --maxWorkers 2",
-    "test:all": "yarn test",
-    "postinstall": "yarn run code:build"
+    "test:all": "yarn test"
   },
   "main": "build/index.js",
   "version": "2.0.0",
